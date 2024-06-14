@@ -1,0 +1,40 @@
+[tool.poetry]
+name = "pt"
+version = "0.1.0"
+description = "private torrent manager"
+authors = ["Weihao Hu <bamboo5320@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">3.10, <3.11"
+requests = "^2.31.0"
+beautifulsoup4 = "^4.12.3"
+chardet = "^5.2.0"
+lxml = "^5.2.2"
+lbry-libtorrent = "^1.2.4"
+libtorrent = "^2.0.9"
+ffmpeg-python = "^0.2.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+isort = "^5.13.2"
+pre-commit = "^3.7.1"
+prettier = "^0.0.7"
+commitizen = "^3.26.0"
+
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "poetry"
+update_changelog_on_bump = true
+major_version_zero = true
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+bump_message = "bump: version $current_version → $new_version"
+update_changelog_on_bump = true
+annotated_tag = true
