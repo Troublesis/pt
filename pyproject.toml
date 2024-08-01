@@ -16,6 +16,11 @@ lbry-libtorrent = "^1.2.4"
 libtorrent = "^2.0.9"
 ffmpeg-python = "^0.2.0"
 qbittorrent-api = "^2024.5.63"
+pymediainfo = "^6.1.0"
+opencv-python-headless = "^4.10.0.82"
+pillow = "^10.3.0"
+vcsi = "^7.0.16"
+py3createtorrent = "^1.2.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
@@ -39,3 +44,26 @@ build-backend = "poetry.core.masonry.api"
 bump_message = "bump: version $current_version → $new_version"
 update_changelog_on_bump = true
 annotated_tag = true
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+  \.eggs         # exclude a few common directories in the
+  | \.git        # project's root
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | tests
+)/
+'''
+
+[tool.poetry.scripts]
+format = "black ."

@@ -57,3 +57,5 @@ Thumbs.db
 
 # Test file
 tests/
+torrents/
+**/thumbnails/
