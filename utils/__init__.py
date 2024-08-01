@@ -909,7 +909,9 @@ def menu():
 
 
 def download_exoticaz_torrent(torrent_download_url, torrent_name, headers=headers):
-    torrent_path = f"{torrent_name}.torrent"
+    torrent_path = (
+        f"/volume1/System/CloudDoc/code/mac/python/pt/torrents/{torrent_name}.torrent"
+    )
 
     try:
         response = requests.get(torrent_download_url, headers=headers)
@@ -956,20 +958,22 @@ def get_exoticaz_torrent_info(url, headers=headers):
         return None, f"Request error: {e}"
 
 
-def exoticaz_reseed(url):
+def exoticaz_reseed(url, video_name=None):
     try:
         # 获取Torrent下载URL和JAV ID
-        torrent_download_url, jav_id = get_exoticaz_torrent_info(url)
+        torrent_download_url, jav_name = get_exoticaz_torrent_info(url)
+        if video_name is not None:
+            jav_name = video_name
 
         # 下载Torrent文件
-        torrent_path = download_exoticaz_torrent(torrent_download_url, jav_id)
-        if not torrent_path:
+        torrent_path = download_exoticaz_torrent(torrent_download_url, jav_name)
+        if not torrent_path or not os.path.exists(torrent_path):
             raise ValueError("Failed to download torrent file.")
 
         # 获取视频文件的路径
-        video_path = get_video_path_by_name(jav_id)
-        if not video_path:
-            raise FileNotFoundError(f"No video file found for jav_id: {jav_id}")
+        video_path = get_video_path_by_name(jav_name)
+        if not video_path or not os.path.exists(video_path):
+            raise FileNotFoundError(f"No video file found for jav_id: {jav_name}")
 
         # 设置保存路径（通常是视频文件所在的目录）
         save_path = os.path.dirname(video_path)
@@ -977,16 +981,21 @@ def exoticaz_reseed(url):
         # 上传Torrent到qBittorrent
         upload_torrent(torrent_path, save_path, category="保种")
 
-        print(f"Torrent uploaded successfully for {jav_id}")
+        print(f"Torrent uploaded successfully for {jav_name}")
 
+    except ValueError as ve:
+        print(f"Error processing torrent or video files: {ve}")
+    except FileNotFoundError as fe:
+        print(f"Error: {fe}")
     except Exception as e:
-        print(f"Error in exoticaz_reseed: {e}")
+        print(f"Unexpected error in exoticaz_reseed: {e}")
 
 
 if __name__ == "__main__":
     # while True:
     #     menu()
-
+    url = "https://exoticaz.to/torrent/99837"
+    exoticaz_reseed(url)
     # main()
     # create_private_torrent(
     #     "/volume3/Data2/HD/videos/3d/manual-sort/asia/FC2/1218225509.M2TS",
