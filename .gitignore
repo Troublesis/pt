@@ -1,0 +1,9 @@
+.venv
+.env
+logs
+# Ignore dynaconf secret files
+.secrets.toml
+settings.toml
+node_modules
+__pycache__/
+result
